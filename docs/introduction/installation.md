@@ -9,7 +9,8 @@ import {
 
 # Installation in NodeJS
 
-To use in node use [original version of `class-validator`](https://github.com/typestack/class-validator)
+To use in node use
+[original version of `class-validator`](https://github.com/typestack/class-validator)
 
 To install the stable version:
 
@@ -25,4 +26,5 @@ You can install the next version of `class-validator` via
 npm install --save class-validator@next
 ```
 
-> Note: The next version can break anytime without notice. Do not use this in production.
+> Note: The next version can break anytime without notice. Do not use this in
+> production.

@@ -38,9 +38,10 @@ export class MetadataStorage {
    * Adds a new validation metadata.
    */
   addValidationSchema(schema: ValidationSchema) {
-    const validationMetadatas = new ValidationSchemaToMetadataTransformer().transform(
-      schema
-    );
+    const validationMetadatas = new ValidationSchemaToMetadataTransformer()
+      .transform(
+        schema,
+      );
     validationMetadatas.forEach((validationMetadata) =>
       this.addValidationMetadata(validationMetadata)
     );
@@ -64,7 +65,7 @@ export class MetadataStorage {
    * Groups metadata by their property names.
    */
   groupByPropertyName(
-    metadata: ValidationMetadata[]
+    metadata: ValidationMetadata[],
   ): { [propertyName: string]: ValidationMetadata[] } {
     const grouped: { [propertyName: string]: ValidationMetadata[] } = {};
     metadata.forEach((metadata) => {
@@ -82,7 +83,7 @@ export class MetadataStorage {
   getTargetValidationMetadatas(
     targetConstructor: Function,
     targetSchema: string,
-    groups?: string[]
+    groups?: string[],
   ): ValidationMetadata[] {
     // get directly related to a target metadatas
     const originalMetadatas = this.validationMetadatas.filter((metadata) => {
@@ -134,7 +135,7 @@ export class MetadataStorage {
             originalMetadata.type === inheritedMetadata.type
           );
         });
-      }
+      },
     );
 
     return originalMetadatas.concat(uniqueInheritedMetadatas);
@@ -145,7 +146,7 @@ export class MetadataStorage {
    */
   getTargetValidatorConstraints(target: Function): ConstraintMetadata[] {
     return this.constraintMetadatas.filter(
-      (metadata) => metadata.target === target
+      (metadata) => metadata.target === target,
     );
   }
 }

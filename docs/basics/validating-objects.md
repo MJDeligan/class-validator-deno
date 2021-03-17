@@ -2,14 +2,14 @@
 
 ```ts
 import {
-  validate,
-  validateOrReject,
-  IsString,
-  IsInt,
   IsDate,
+  IsInt,
+  IsString,
+  Max,
   MaxLength,
   Min,
-  Max,
+  validate,
+  validateOrReject,
   ValidationError,
 } from "class-validator/mod.ts";
 

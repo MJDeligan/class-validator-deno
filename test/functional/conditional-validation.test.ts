@@ -1,10 +1,10 @@
-import { Rhum, expect } from "../dep.ts";
+import { expect, Rhum } from "../dep.ts";
 
 import {
-  IsNotEmpty,
-  ValidateIf,
-  IsOptional,
   Equals,
+  IsNotEmpty,
+  IsOptional,
+  ValidateIf,
 } from "../../src/decorator/decorators.ts";
 import { Validator } from "../../src/validation/Validator.ts";
 import { ValidatorOptions } from "../../src/validation/ValidatorOptions.ts";

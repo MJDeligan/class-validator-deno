@@ -77,8 +77,8 @@ export class ValidationError {
     } else {
       // we format numbers as array indexes for better readability.
       const formattedProperty = Number.isInteger(
-        +(this.property as string),
-      )
+          +(this.property as string),
+        )
         ? `[${this.property}]`
         : `${parentPath ? `.` : ``}${this.property}`;
 

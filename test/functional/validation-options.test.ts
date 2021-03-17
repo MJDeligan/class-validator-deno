@@ -4,17 +4,17 @@ import {
   IsDefined,
   Matches,
   MinLength,
+  Validate,
   ValidateNested,
   ValidatorConstraint,
-  Validate,
 } from "../../src/decorator/decorators.ts";
 import { Validator } from "../../src/validation/Validator.ts";
 import {
-  ValidationError,
-  ValidatorConstraintInterface,
-  ValidationOptions,
   registerDecorator,
   ValidationArguments,
+  ValidationError,
+  ValidationOptions,
+  ValidatorConstraintInterface,
 } from "../../src/index.ts";
 
 describe("message", () => {

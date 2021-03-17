@@ -6,7 +6,7 @@ import { ValidationTypes } from "./ValidationTypes.ts";
 import { ConstraintMetadata } from "../metadata/ConstraintMetadata.ts";
 import { ValidationArguments } from "./ValidationArguments.ts";
 import { ValidationUtils } from "./ValidationUtils.ts";
-import { isPromise, convertToArray } from "../utils.ts";
+import { convertToArray, isPromise } from "../utils.ts";
 import { getMetadataStorage } from "../metadata/MetadataStorage.ts";
 
 /**

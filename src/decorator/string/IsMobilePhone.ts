@@ -19,13 +19,12 @@ export const IS_MOBILE_PHONE = "isMobilePhone";
 export function isMobilePhone(
   value: unknown,
   locale?: any,
-  // locale?: validator.MobilePhoneLocale,
+  // locale?: typeof validator.mobilePhoneLocales,
   options?: any,
   // options?: validator.IsMobilePhoneOptions
 ): boolean {
   return (
-    typeof value === "string" &&
-    validator.isMobilePhone(value, locale, options)
+    typeof value === "string" && validator.isMobilePhone(value, locale, options)
   );
 }
 
@@ -54,11 +53,7 @@ export function IsMobilePhone(
       constraints: [locale, options],
       validator: {
         validate: (value, args) =>
-          isMobilePhone(
-            value,
-            args?.constraints[0],
-            args?.constraints[1],
-          ),
+          isMobilePhone(value, args?.constraints[0], args?.constraints[1]),
         defaultMessage: buildMessage(
           (eachPrefix) => eachPrefix + "$property must be a phone number",
           validationOptions,

@@ -1,4 +1,4 @@
-import { Rhum, expect } from "../dep.ts";
+import { expect, Rhum } from "../dep.ts";
 
 import { Contains, MinLength } from "../../src/decorator/decorators.ts";
 import { Validator } from "../../src/validation/Validator.ts";

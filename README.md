@@ -2,9 +2,16 @@
 
 `Deno port of class-validator`
 
-Allows use of decorator and non-decorator based validation.
-Internally uses [validator-deno][1] to perform validation.
-Class-validator works on both browser and node.js platforms.
+```
+losely tested
+deno 1.8.1 (release, x86_64-unknown-linux-gnu)
+v8 9.0.257.3
+typescript 4.2.2
+```
+
+Allows use of decorator and non-decorator based validation. Internally uses
+[validator-deno][1] to perform validation. Class-validator works on both browser
+and node.js platforms.
 
 ## Table of Contents
 
@@ -29,7 +36,8 @@ Class-validator works on both browser and node.js platforms.
   - [Synchronous validation](#synchronous-validation)
   - [Manual validation](#manual-validation)
   - [Validation decorators](#validation-decorators)
-  - [Defining validation schema without decorators](#defining-validation-schema-without-decorators)
+  - [Defining validation schema without
+    decorators](#defining-validation-schema-without-decorators)
   - [Validating plain objects](#validating-plain-objects)
 - [Samples](#samples)
 - [Extensions](#extensions)
@@ -43,20 +51,21 @@ import {} from "https://github.com/Tnifey/class-validator/raw/master/mod.ts";
 
 ## Usage
 
-Create your class and put some validation decorators on the properties you want to validate:
+Create your class and put some validation decorators on the properties you want
+to validate:
 
 ```typescript
 import {
-  validate,
-  validateOrReject,
   Contains,
-  IsInt,
-  Length,
+  IsDate,
   IsEmail,
   IsFQDN,
-  IsDate,
-  Min,
+  IsInt,
+  Length,
   Max,
+  Min,
+  validate,
+  validateOrReject,
 } from "class-validator/mod.ts";
 
 export class Post {
@@ -107,7 +116,7 @@ async function validateOrRejectExample(input) {
   } catch (errors) {
     console.log(
       "Caught promise rejection (validation failed). Errors: ",
-      errors,
+      errors
     );
   }
 }
@@ -115,7 +124,8 @@ async function validateOrRejectExample(input) {
 
 ### Passing options
 
-The `validate` function optionally expects a `ValidatorOptions` object as a second parameter:
+The `validate` function optionally expects a `ValidatorOptions` object as a
+second parameter:
 
 ```ts
 export interface ValidatorOptions {
@@ -133,11 +143,13 @@ export interface ValidatorOptions {
 }
 ```
 
-> It's highly advised to set `forbidUnknownValues: true` as it will prevent unknown objects from passing validation.
+> It's highly advised to set `forbidUnknownValues: true` as it will prevent
+> unknown objects from passing validation.
 
 ## Validation errors
 
-The `validate` method returns an array of `ValidationError` objects. Each `ValidationError` is:
+The `validate` method returns an array of `ValidationError` objects. Each
+`ValidationError` is:
 
 ```typescript
 {
@@ -151,7 +163,8 @@ The `validate` method returns an array of `ValidationError` objects. Each `Valid
 }
 ```
 
-In our case, when we validated a Post object, we have such an array of `ValidationError` objects:
+In our case, when we validated a Post object, we have such an array of
+`ValidationError` objects:
 
 ```typescript
 [{
@@ -173,22 +186,24 @@ In our case, when we validated a Post object, we have such an array of `Validati
 ]
 ```
 
-If you don't want a `target` to be exposed in validation errors, there is a special option when you use validator:
+If you don't want a `target` to be exposed in validation errors, there is a
+special option when you use validator:
 
 ```typescript
 validator.validate(post, { validationError: { target: false } });
 ```
 
-This is especially useful when you send errors back over http, and you most probably don't want to expose
-the whole target object.
+This is especially useful when you send errors back over http, and you most
+probably don't want to expose the whole target object.
 
 ## Validation messages
 
-You can specify validation message in the decorator options and that message will be returned in the `ValidationError`
-returned by the `validate` method (in the case that validation for this field fails).
+You can specify validation message in the decorator options and that message
+will be returned in the `ValidationError` returned by the `validate` method (in
+the case that validation for this field fails).
 
 ```typescript
-import { MinLength, MaxLength } from "class-validator/mod.ts";
+import { MaxLength, MinLength } from "class-validator/mod.ts";
 
 export class Post {
   @MinLength(10, {
@@ -206,12 +221,13 @@ There are few special tokens you can use in your messages:
 - `$value` - the value that is being validated
 - `$property` - name of the object's property being validated
 - `$target` - name of the object's class being validated
-- `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by specific validation type
+- `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by
+  specific validation type
 
 Example of usage:
 
 ```typescript
-import { MinLength, MaxLength } from "class-validator/mod.ts";
+import { MaxLength, MinLength } from "class-validator/mod.ts";
 
 export class Post {
   @MinLength(10, {
@@ -228,12 +244,13 @@ export class Post {
 }
 ```
 
-Also you can provide a function, that returns a message. This allows you to create more granular messages:
+Also you can provide a function, that returns a message. This allows you to
+create more granular messages:
 
 ```typescript
 import {
-  MinLength,
   MaxLength,
+  MinLength,
   ValidationArguments,
 } from "class-validator/mod.ts";
 
@@ -253,7 +270,8 @@ export class Post {
 }
 ```
 
-Message function accepts `ValidationArguments` which contains the following information:
+Message function accepts `ValidationArguments` which contains the following
+information:
 
 - `value` - the value that is being validated
 - `constraints` - array of constraints defined by specific validation type
@@ -263,11 +281,11 @@ Message function accepts `ValidationArguments` which contains the following info
 
 ## Validating arrays
 
-If your field is an array and you want to perform validation of each item in the array you must specify a
-special `each: true` decorator option:
+If your field is an array and you want to perform validation of each item in the
+array you must specify a special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from "class-validator/mod.ts";
+import { MaxLength, MinLength } from "class-validator/mod.ts";
 
 export class Post {
   @MaxLength(20, {
@@ -281,11 +299,11 @@ This will validate each item in `post.tags` array.
 
 ## Validating sets
 
-If your field is a set and you want to perform validation of each item in the set you must specify a
-special `each: true` decorator option:
+If your field is a set and you want to perform validation of each item in the
+set you must specify a special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from "class-validator/mod.ts";
+import { MaxLength, MinLength } from "class-validator/mod.ts";
 
 export class Post {
   @MaxLength(20, {
@@ -299,11 +317,11 @@ This will validate each item in `post.tags` set.
 
 ## Validating maps
 
-If your field is a map and you want to perform validation of each item in the map you must specify a
-special `each: true` decorator option:
+If your field is a map and you want to perform validation of each item in the
+map you must specify a special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from "class-validator/mod.ts";
+import { MaxLength, MinLength } from "class-validator/mod.ts";
 
 export class Post {
   @MaxLength(20, {
@@ -317,8 +335,8 @@ This will validate each item in `post.tags` map.
 
 ## Validating nested objects
 
-If your object contains nested objects and you want the validator to perform their validation too, then you need to
-use the `@ValidateNested()` decorator:
+If your object contains nested objects and you want the validator to perform
+their validation too, then you need to use the `@ValidateNested()` decorator:
 
 ```typescript
 import { ValidateNested } from "class-validator/mod.ts";
@@ -329,7 +347,9 @@ export class Post {
 }
 ```
 
-Please note that nested object _must_ be an instance of a class, otherwise `@ValidateNested` won't know what class is target of validation. Check also [Validating plain objects](#validating-plain-objects).
+Please note that nested object _must_ be an instance of a class, otherwise
+`@ValidateNested` won't know what class is target of validation. Check also
+[Validating plain objects](#validating-plain-objects).
 
 It also works with multi-dimensional array, like :
 
@@ -344,10 +364,11 @@ export class Plan2D {
 
 ## Validating promises
 
-If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
+If your object contains property with `Promise`-returned value that should be
+validated, then you need to use the `@ValidatePromise()` decorator:
 
 ```typescript
-import { ValidatePromise, Min } from "class-validator/mod.ts";
+import { Min, ValidatePromise } from "class-validator/mod.ts";
 
 export class Post {
   @Min(0)
@@ -370,7 +391,10 @@ export class Post {
 
 ## Inheriting Validation decorators
 
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant class decorators will be applied on it both from that and the base class.
+When you define a subclass which extends from another one, the subclass will
+automatically inherit the parent's decorators. If a property is redefined in the
+descendant class decorators will be applied on it both from that and the base
+class.
 
 ```typescript
 import { validate } from "class-validator/mod.ts";
@@ -409,10 +433,12 @@ validate(user).then(errors => {
 
 ## Conditional validation
 
-The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
+The conditional validation decorator (`@ValidateIf`) can be used to ignore the
+validators on a property when the provided condition function returns false. The
+condition function takes the object being validated and must return a `boolean`.
 
 ```typescript
-import { ValidateIf, IsNotEmpty } from "class-validator/mod.ts";
+import { IsNotEmpty, ValidateIf } from "class-validator/mod.ts";
 
 export class Post {
   otherProperty: string;
@@ -423,14 +449,17 @@ export class Post {
 }
 ```
 
-In the example above, the validation rules applied to `example` won't be run unless the object's `otherProperty` is `"value"`.
+In the example above, the validation rules applied to `example` won't be run
+unless the object's `otherProperty` is `"value"`.
 
-Note that when the condition is false all validation decorators are ignored, including `isDefined`.
+Note that when the condition is false all validation decorators are ignored,
+including `isDefined`.
 
 ## Whitelisting
 
-Even if your object is an instance of a validation class it can contain additional properties that are not defined.
-If you do not want to have such properties on your object, pass special flag to `validate` method:
+Even if your object is an instance of a validation class it can contain
+additional properties that are not defined. If you do not want to have such
+properties on your object, pass special flag to `validate` method:
 
 ```typescript
 import { validate } from "class-validator/mod.ts";
@@ -438,8 +467,8 @@ import { validate } from "class-validator/mod.ts";
 validate(post, { whitelist: true });
 ```
 
-This will strip all properties that don't have any decorators. If no other decorator is suitable for your property,
-you can use @Allow decorator:
+This will strip all properties that don't have any decorators. If no other
+decorator is suitable for your property, you can use @Allow decorator:
 
 ```typescript
 import {validate, Allow, Min} from "class-validator/mod.ts";
@@ -469,8 +498,8 @@ validate(post).then(errors => {
 });
 ```
 
-If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to
-`validate` method:
+If you would rather to have an error thrown when any non-whitelisted properties
+are present, pass another flag to `validate` method:
 
 ```typescript
 import { validate } from "class-validator/mod.ts";
@@ -480,7 +509,8 @@ validate(post, { whitelist: true, forbidNonWhitelisted: true });
 
 ## Passing context to decorators
 
-It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
+It's possible to pass a custom object to decorators which will be accessible on
+the `ValidationError` instance of the property if validation failed.
 
 ```ts
 import { validate } from "class-validator/mod.ts";
@@ -505,10 +535,11 @@ validate(model).then(errors => {
 
 ## Skipping missing properties
 
-Sometimes you may want to skip validation of the properties that do not exist in the validating object. This is
-usually desirable when you want to update some parts of the object, and want to validate only updated parts,
-but skip everything else, e.g. skip missing properties.
-In such situations you will need to pass a special flag to `validate` method:
+Sometimes you may want to skip validation of the properties that do not exist in
+the validating object. This is usually desirable when you want to update some
+parts of the object, and want to validate only updated parts, but skip
+everything else, e.g. skip missing properties. In such situations you will need
+to pass a special flag to `validate` method:
 
 ```typescript
 import { validate } from "class-validator/mod.ts";
@@ -516,17 +547,19 @@ import { validate } from "class-validator/mod.ts";
 validate(post, { skipMissingProperties: true });
 ```
 
-When skipping missing properties, sometimes you want not to skip all missing properties, some of them maybe required
-for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` decorator.
-`@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
+When skipping missing properties, sometimes you want not to skip all missing
+properties, some of them maybe required for you, even if skipMissingProperties
+is set to true. For such cases you should use `@IsDefined()` decorator.
+`@IsDefined()` is the only decorator that ignores `skipMissingProperties`
+option.
 
 ## Validation groups
 
-In different situations you may want to use different validation schemas of the same object.
-In such cases you can use validation groups.
+In different situations you may want to use different validation schemas of the
+same object. In such cases you can use validation groups.
 
 ```typescript
-import { validate, Min, Length } from "class-validator/mod.ts";
+import { Length, Min, validate } from "class-validator/mod.ts";
 
 export class User {
   @Min(12, {
@@ -565,8 +598,9 @@ validate(user, {
 }); // this will not pass validation, (equivalent to 'groups: undefined', see above)
 ```
 
-There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
-must be applied always no matter which group is used.
+There is also a special flag `always: true` in validation options that you can
+use. This flag says that this validation must be applied always no matter which
+group is used.
 
 ## Custom validation classes
 
@@ -576,9 +610,9 @@ If you have custom validation logic you can create a _Constraint class_:
 
    ```typescript
    import {
+     ValidationArguments,
      ValidatorConstraint,
      ValidatorConstraintInterface,
-     ValidationArguments,
    } from "class-validator/mod.ts";
 
    @ValidatorConstraint({ name: "customText", async: false })
@@ -594,17 +628,20 @@ If you have custom validation logic you can create a _Constraint class_:
    }
    ```
 
-   We marked our class with `@ValidatorConstraint` decorator.
-   You can also supply a validation constraint name - this name will be used as "error type" in ValidationError.
-   If you will not supply a constraint name - it will be auto-generated.
+   We marked our class with `@ValidatorConstraint` decorator. You can also
+   supply a validation constraint name - this name will be used as "error type"
+   in ValidationError. If you will not supply a constraint name - it will be
+   auto-generated.
 
-   Our class must implement `ValidatorConstraintInterface` interface and its `validate` method,
-   which defines validation logic. If validation succeeds, method returns true, otherwise false.
-   Custom validator can be asynchronous, if you want to perform validation after some asynchronous
-   operations, simply return a promise with boolean inside in `validate` method.
+   Our class must implement `ValidatorConstraintInterface` interface and its
+   `validate` method, which defines validation logic. If validation succeeds,
+   method returns true, otherwise false. Custom validator can be asynchronous,
+   if you want to perform validation after some asynchronous operations, simply
+   return a promise with boolean inside in `validate` method.
 
-   Also we defined optional method `defaultMessage` which defines a default error message,
-   in the case that the decorator's implementation doesn't set an error message.
+   Also we defined optional method `defaultMessage` which defines a default
+   error message, in the case that the decorator's implementation doesn't set an
+   error message.
 
 2) Then you can use your new validation constraint in your class:
 
@@ -620,7 +657,8 @@ If you have custom validation logic you can create a _Constraint class_:
    }
    ```
 
-   Here we set our newly created `CustomTextLength` validation constraint for `Post.title`.
+   Here we set our newly created `CustomTextLength` validation constraint for
+   `Post.title`.
 
 3) And use validator as usual:
 
@@ -668,21 +706,21 @@ export class CustomTextLength implements ValidatorConstraintInterface {
 
 ## Custom validation decorators
 
-You can also create a custom decorators. Its the most elegant way of using a custom validations.
-Lets create a decorator called `@IsLongerThan`:
+You can also create a custom decorators. Its the most elegant way of using a
+custom validations. Lets create a decorator called `@IsLongerThan`:
 
 1. Create a decorator itself:
 
    ```typescript
    import {
      registerDecorator,
-     ValidationOptions,
      ValidationArguments,
+     ValidationOptions,
    } from "class-validator/mod.ts";
 
    export function IsLongerThan(
      property: string,
-     validationOptions?: ValidationOptions,
+     validationOptions?: ValidationOptions
    ) {
      return function (object: Object, propertyName: string) {
        registerDecorator({
@@ -723,18 +761,18 @@ Lets create a decorator called `@IsLongerThan`:
    }
    ```
 
-In your custom decorators you can also use `ValidationConstraint`.
-Lets create another custom validation decorator called `IsUserAlreadyExist`:
+In your custom decorators you can also use `ValidationConstraint`. Lets create
+another custom validation decorator called `IsUserAlreadyExist`:
 
 1. Create a ValidationConstraint and decorator:
 
    ```typescript
    import {
      registerDecorator,
+     ValidationArguments,
      ValidationOptions,
      ValidatorConstraint,
      ValidatorConstraintInterface,
-     ValidationArguments,
    } from "class-validator/mod.ts";
 
    @ValidatorConstraint({ async: true })
@@ -761,7 +799,8 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
    }
    ```
 
-   note that we marked our constraint that it will by async by adding `{ async: true }` in validation options.
+   note that we marked our constraint that it will by async by adding
+   `{ async: true }` in validation options.
 
 2. And put it to use:
 
@@ -778,8 +817,9 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
 
 ## Using service container
 
-Validator supports service container in the case if want to inject dependencies into your custom validator constraint
-classes. Here is example how to integrate it with [typedi][2]:
+Validator supports service container in the case if want to inject dependencies
+into your custom validator constraint classes. Here is example how to integrate
+it with [typedi][2]:
 
 ```typescript
 import { Container } from "typedi";
@@ -795,16 +835,18 @@ let validator = Container.get(Validator);
 
 ## Synchronous validation
 
-If you want to perform a simple non async validation you can use `validateSync` method instead of regular `validate`
-method. It has the same arguments as `validate` method. But note, this method **ignores** all async validations
-you have.
+If you want to perform a simple non async validation you can use `validateSync`
+method instead of regular `validate` method. It has the same arguments as
+`validate` method. But note, this method **ignores** all async validations you
+have.
 
 ## Manual validation
 
-There are several method exist in the Validator that allows to perform non-decorator based validation:
+There are several method exist in the Validator that allows to perform
+non-decorator based validation:
 
 ```typescript
-import { isEmpty, isBoolean } from "class-validator/mod.ts";
+import { isBoolean, isEmpty } from "class-validator/mod.ts";
 
 isEmpty(value);
 isBoolean(value);
@@ -814,7 +856,7 @@ isBoolean(value);
 
 | Decorator                                       | Description                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Common validation decorators**                |
+| **Common validation decorators**                |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.                                                                                                                                                                                                                                                                                          |
 | `@IsOptional()`                                 | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property.                                                                                                                                                                                                                                                                                                      |
 | `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                                                                                                                                                                                                                                                                                                                                           |
@@ -823,7 +865,7 @@ isBoolean(value);
 | `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined).                                                                                                                                                                                                                                                                                                                                                |
 | `@IsIn(values: any[])`                          | Checks if value is in a array of allowed values.                                                                                                                                                                                                                                                                                                                                                                     |
 | `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values.                                                                                                                                                                                                                                                                                                                                                              |
-| **Type validation decorators**                  |
+| **Type validation decorators**                  |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsDate()`                                     | Checks if the value is a date.                                                                                                                                                                                                                                                                                                                                                                                       |
 | `@IsString()`                                   | Checks if the string is a string.                                                                                                                                                                                                                                                                                                                                                                                    |
@@ -831,20 +873,20 @@ isBoolean(value);
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                                                                                                                                                                                                                                                                                                            |
 | `@IsArray()`                                    | Checks if the value is an array                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsEnum(entity: object)`                       | Checks if the value is an valid enum                                                                                                                                                                                                                                                                                                                                                                                 |
-| **Number validation decorators**                |
+| **Number validation decorators**                |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                                                                                                                                                                                                                                                                                                         |
 | `@IsPositive()`                                 | Checks if the value is a positive number greater than zero.                                                                                                                                                                                                                                                                                                                                                          |
 | `@IsNegative()`                                 | Checks if the value is a negative number smaller than zero.                                                                                                                                                                                                                                                                                                                                                          |
 | `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number.                                                                                                                                                                                                                                                                                                                                                 |
 | `@Max(max: number)`                             | Checks if the given number is less than or equal to given number.                                                                                                                                                                                                                                                                                                                                                    |
-| **Date validation decorators**                  |
+| **Date validation decorators**                  |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                                                                                                                                                                                                                                                                                                                                       |
-| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                                                                                                                                                                                                                                                                                                      |  |
-| **String-type validation decorators**           |
+| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                                                                                                                                                                                                                                                                                                      |
+| **String-type validation decorators**           |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                                                                                                                                                                                                                                                                                                                                         |
 | `@IsDateString()`                               | Checks if a string is a complete representation of a date (e.g. "2017-06-07T14:34:08.700Z", "2017-06-07T14:34:08.700 or "2017-06-07T14:34:08+04:00").                                                                                                                                                                                                                                                                |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if a string is a number.                                                                                                                                                                                                                                                                                                                                                                                      |
-| **String validation decorators**                |
+| **String validation decorators**                |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                                                                                                                                                                                                                                                                                                                                              |
 | `@NotContains(seed: string)`                    | Checks if the string not contains the seed.                                                                                                                                                                                                                                                                                                                                                                          |
 | `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                                                                                                                                                                                                                                                                                                                                                 |
@@ -914,16 +956,16 @@ isBoolean(value);
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN.                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code).                                                                                                                                                                                                                                                                                                               |
 | `@IsRFC3339()`                                  | Checks f the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date.                                                                                                                                                                                                                                                                                                                                 |
-| **Array validation decorators**                 |
+| **Array validation decorators**                 |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                                                                                                                                                                                                                                                                                                                  |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                                                                                                                                                                                                                                                                                                            |
 | `@ArrayNotEmpty()`                              | Checks if given array is not empty.                                                                                                                                                                                                                                                                                                                                                                                  |
 | `@ArrayMinSize(min: number)`                    | Checks if array's length is as minimal this number.                                                                                                                                                                                                                                                                                                                                                                  |
 | `@ArrayMaxSize(max: number)`                    | Checks if array's length is as maximal this number.                                                                                                                                                                                                                                                                                                                                                                  |
 | `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                                                                                                                                                                                                                                                                                                                  |
-| **Object validation decorators**                |
+| **Object validation decorators**                |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@IsInstance(value: any)`                       | Checks if the property is an instance of the passed value.                                                                                                                                                                                                                                                                                                                                                           |
-| **Other decorators**                            |
+| **Other decorators**                            |                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `@Allow()`                                      | Prevent stripping off the property when no other constraint is specified for it.                                                                                                                                                                                                                                                                                                                                     |
 
 ## Defining validation schema without decorators
@@ -991,7 +1033,8 @@ Here is an example of using it:
    registerSchema(UserValidationSchema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
    ```
 
-   Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
+   Better to put this code in a global place, maybe when you bootstrap your
+   application, for example in `app.ts`.
 
 3. Validate your object using validation schema:
 
@@ -1016,14 +1059,20 @@ Here is an example of using it:
 
 ## Validating plain objects
 
-Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance (e.g. using [class-transformer](https://github.com/tnifey/class-transformer)).
+Due to nature of the decorators, the validated object has to be instantiated
+using `new Class()` syntax. If you have your class defined using class-validator
+decorators and you want to validate plain JS object (literal object or returned
+by JSON.parse), you need to transform it to the class instance (e.g. using
+[class-transformer](https://github.com/tnifey/class-transformer)).
 
 ## NodeJS
 
-There are several extensions that simplify class-validator integration with other modules:
+There are several extensions that simplify class-validator integration with
+other modules:
 
 - [class-validator nodejs](https://github.com/typestack/class-validator)
-- [class-validator integration](https://github.com/19majkel94/class-transformer-validator) with [class-transformer](https://github.com/pleerock/class-transformer)
+- [class-validator integration](https://github.com/19majkel94/class-transformer-validator)
+  with [class-transformer](https://github.com/pleerock/class-transformer)
 - [class-validator-rule](https://github.com/yantrab/class-validator-rule)
 - [ngx-dynamic-form-builder](https://github.com/EndyKaufman/ngx-dynamic-form-builder)
 

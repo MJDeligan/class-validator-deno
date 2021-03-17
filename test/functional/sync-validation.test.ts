@@ -1,13 +1,13 @@
-import { Rhum, expect } from "../dep.ts";
+import { expect, Rhum } from "../dep.ts";
 
 import { Validator } from "../../src/validation/Validator.ts";
 import { ValidationArguments } from "../../src/validation/ValidationArguments.ts";
 import { registerDecorator } from "../../src/register-decorator.ts";
 import { ValidationOptions } from "../../src/decorator/ValidationOptions.ts";
 import {
-  ValidatorConstraint,
-  Validate,
   IsNotEmpty,
+  Validate,
+  ValidatorConstraint,
 } from "../../src/decorator/decorators.ts";
 import { ValidatorConstraintInterface } from "../../src/validation/ValidatorConstraintInterface.ts";
 

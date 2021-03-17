@@ -1,12 +1,12 @@
-import { Rhum, expect } from "../dep.ts";
+import { expect, Rhum } from "../dep.ts";
 
 import {
   Contains,
   IsDefined,
+  MaxLength,
   MinLength,
   ValidateNested,
   ValidatePromise,
-  MaxLength,
 } from "../../src/decorator/decorators.ts";
 import { Validator } from "../../src/validation/Validator.ts";
 import { ValidationTypes } from "../../src/validation/ValidationTypes.ts";

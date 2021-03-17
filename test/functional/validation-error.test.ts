@@ -1,12 +1,12 @@
-import { Rhum, expect } from "../dep.ts";
+import { expect, Rhum } from "../dep.ts";
 
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUrl,
-  IsOptional,
-  ValidateNested,
   MinLength,
+  ValidateNested,
 } from "../../src/decorator/decorators.ts";
 import { Validator } from "../../src/validation/Validator.ts";
 

@@ -31,7 +31,7 @@ export * from "./metadata/MetadataStorage.ts";
  */
 export function validate(
   object: Object,
-  validatorOptions?: ValidatorOptions,
+  validatorOptions?: ValidatorOptions
 ): Promise<ValidationError[]>;
 
 /**
@@ -40,7 +40,7 @@ export function validate(
 export function validate(
   schemaName: string,
   object: Object,
-  validatorOptions?: ValidatorOptions,
+  validatorOptions?: ValidatorOptions
 ): Promise<ValidationError[]>;
 
 /**
@@ -49,18 +49,18 @@ export function validate(
 export function validate(
   schemaNameOrObject: Object | string,
   objectOrValidationOptions?: Object | ValidatorOptions,
-  maybeValidatorOptions?: ValidatorOptions,
+  maybeValidatorOptions?: ValidatorOptions
 ): Promise<ValidationError[]> {
   if (typeof schemaNameOrObject === "string") {
     return getFromContainer(Validator).validate(
       schemaNameOrObject as string,
       objectOrValidationOptions as Object,
-      maybeValidatorOptions,
+      maybeValidatorOptions
     );
   } else {
     return getFromContainer(Validator).validate(
       schemaNameOrObject as Object,
-      objectOrValidationOptions as ValidatorOptions,
+      objectOrValidationOptions as ValidatorOptions
     );
   }
 }
@@ -70,7 +70,7 @@ export function validate(
  */
 export function validateOrReject(
   object: Object,
-  validatorOptions?: ValidatorOptions,
+  validatorOptions?: ValidatorOptions
 ): Promise<void>;
 
 /**
@@ -79,7 +79,7 @@ export function validateOrReject(
 export function validateOrReject(
   schemaName: string,
   object: Object,
-  validatorOptions?: ValidatorOptions,
+  validatorOptions?: ValidatorOptions
 ): Promise<void>;
 
 /**
@@ -88,18 +88,18 @@ export function validateOrReject(
 export function validateOrReject(
   schemaNameOrObject: Object | string,
   objectOrValidationOptions?: Object | ValidatorOptions,
-  maybeValidatorOptions?: ValidatorOptions,
+  maybeValidatorOptions?: ValidatorOptions
 ): Promise<void> {
   if (typeof schemaNameOrObject === "string") {
     return getFromContainer(Validator).validateOrReject(
       schemaNameOrObject as string,
       objectOrValidationOptions as Object,
-      maybeValidatorOptions,
+      maybeValidatorOptions
     );
   } else {
     return getFromContainer(Validator).validateOrReject(
       schemaNameOrObject as Object,
-      objectOrValidationOptions as ValidatorOptions,
+      objectOrValidationOptions as ValidatorOptions
     );
   }
 }
@@ -111,7 +111,7 @@ export function validateOrReject(
  */
 export function validateSync(
   object: Object,
-  validatorOptions?: ValidatorOptions,
+  validatorOptions?: ValidatorOptions
 ): ValidationError[];
 
 /**
@@ -122,7 +122,7 @@ export function validateSync(
 export function validateSync(
   schemaName: string,
   object: Object,
-  validatorOptions?: ValidatorOptions,
+  validatorOptions?: ValidatorOptions
 ): ValidationError[];
 
 /**
@@ -133,18 +133,18 @@ export function validateSync(
 export function validateSync(
   schemaNameOrObject: Object | string,
   objectOrValidationOptions?: Object | ValidatorOptions,
-  maybeValidatorOptions?: ValidatorOptions,
+  maybeValidatorOptions?: ValidatorOptions
 ): ValidationError[] {
   if (typeof schemaNameOrObject === "string") {
     return getFromContainer(Validator).validateSync(
       schemaNameOrObject as string,
       objectOrValidationOptions as Object,
-      maybeValidatorOptions,
+      maybeValidatorOptions
     );
   } else {
     return getFromContainer(Validator).validateSync(
       schemaNameOrObject as Object,
-      objectOrValidationOptions as ValidatorOptions,
+      objectOrValidationOptions as ValidatorOptions
     );
   }
 }

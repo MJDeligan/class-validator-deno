@@ -6,8 +6,8 @@ import { ValidationTypes } from "./validation/ValidationTypes.ts";
 import { ValidationArguments } from "./validation/ValidationArguments.ts";
 import { getFromContainer } from "./container.ts";
 import {
-  MetadataStorage,
   getMetadataStorage,
+  MetadataStorage,
 } from "./metadata/MetadataStorage.ts";
 import { ValidationOptions } from "./decorator/ValidationOptions.ts";
 

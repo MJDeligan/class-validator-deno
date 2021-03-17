@@ -57,8 +57,8 @@ export function Validate(
         ? (constraintsOrValidationOptions as any[])
         : undefined,
       validationOptions: !(
-        constraintsOrValidationOptions instanceof Array
-      )
+          constraintsOrValidationOptions instanceof Array
+        )
         ? (constraintsOrValidationOptions as ValidationOptions)
         : maybeValidationOptions,
     };

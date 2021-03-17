@@ -1,4 +1,4 @@
-import { Rhum, expect } from "./dep.ts";
+import { expect, Rhum } from "./dep.ts";
 
 import { convertToArray } from "../src/utils.ts";
 
