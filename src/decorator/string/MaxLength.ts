@@ -9,9 +9,7 @@ export const MAX_LENGTH = "maxLength";
  * If given value is not a string, then it returns false.
  */
 export function maxLength(value: unknown, max: number) {
-  return (
-    typeof value === "string" && validator.maxLength(value, max);
-  );
+  return typeof value === "string" && validator.maxLength(value, max);
 }
 
 /**
