@@ -1,4 +1,4 @@
-import { default as validator } from "https://github.com/validatorjs/validator-deno/raw/master/mod.ts";
+import { default as validator } from "https://github.com/MJDeligan/validator-deno/raw/master/mod.ts";
 
 export default validator;
 
