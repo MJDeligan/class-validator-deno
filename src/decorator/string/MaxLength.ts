@@ -10,7 +10,7 @@ export const MAX_LENGTH = "maxLength";
  */
 export function maxLength(value: unknown, max: number) {
   return (
-    typeof value === "string" && validator.isLength(value, { min: 0, max })
+    typeof value === "string" && validator.maxLength(value, max);
   );
 }
 
@@ -27,9 +27,9 @@ export function MaxLength(
       name: MAX_LENGTH,
       constraints: [max],
       validator: {
-        validate: (value, args) => maxLength(value, args?.constraints[0]),
+        validate: (value: unknown, args) => maxLength(value, args?.constraints[0]),
         defaultMessage: buildMessage(
-          (eachPrefix) =>
+          (eachPrefix: string) =>
             eachPrefix +
             "$property must be shorter than or equal to $constraint1 characters",
           validationOptions,

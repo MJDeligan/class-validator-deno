@@ -9,7 +9,7 @@ export const MIN_LENGTH = "minLength";
  * If given value is not a string, then it returns false.
  */
 export function minLength(value: unknown, min: number) {
-  return typeof value === "string" && validator.isLength(value, { min });
+  return typeof value === "string" && validator.minLength(value, min);
 }
 
 /**
